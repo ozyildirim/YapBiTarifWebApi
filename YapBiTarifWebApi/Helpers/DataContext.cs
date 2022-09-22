@@ -21,10 +21,10 @@ namespace YapBiTarifWebApi.Helpers
         }
 
 
-        public DbSet<AccountTypeModel> AccountTypeModels { get; set; }
-        public DbSet<IngredientModel> IngredientModels { get; set; }
-        public DbSet<RecipeModel> RecipeModels { get; set; }
-        public DbSet<RecipeTypeModel> RecipeTypeModels { get; set; }
-        public DbSet<UserModel> UserModels { get; set; }
+        public DbSet<AccountTypeModel> AccountTypes { get; set; }
+        public DbSet<IngredientModel> Ingredients { get; set; }
+        public DbSet<RecipeModel> Recipes { get; set; }
+        public DbSet<RecipeTypeModel> RecipeTypes { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }

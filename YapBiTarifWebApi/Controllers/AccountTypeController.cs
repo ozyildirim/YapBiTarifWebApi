@@ -22,7 +22,7 @@ namespace YapBiTarifWebApi.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<AccountTypeModel>> Get() {
-            return await _context.AccountTypeModels.ToListAsync();
+            return await _context.AccountTypes.ToListAsync();
         }
 
 
@@ -31,7 +31,7 @@ namespace YapBiTarifWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var accountType = await _context.AccountTypeModels.FindAsync(id);
+            var accountType = await _context.AccountTypes.FindAsync(id);
             return accountType == null ? NotFound() : Ok(accountType);
         }
 
@@ -41,7 +41,7 @@ namespace YapBiTarifWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(AccountTypeModel accountType)
         {
-            await _context.AccountTypeModels.AddAsync(accountType);
+            await _context.AccountTypes.AddAsync(accountType);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = accountType.Id }, accountType);
@@ -67,11 +67,11 @@ namespace YapBiTarifWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id) {
-            var accountTypeToDelete = await _context.AccountTypeModels.FindAsync(id);
+            var accountTypeToDelete = await _context.AccountTypes.FindAsync(id);
             if (accountTypeToDelete == null) return NotFound();
 
 
-            _context.AccountTypeModels.Remove(accountTypeToDelete);
+            _context.AccountTypes.Remove(accountTypeToDelete);
             await _context.SaveChangesAsync();
 
 

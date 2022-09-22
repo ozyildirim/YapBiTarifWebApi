@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YapBiTarifWebApi.Helpers;
 using YapBiTarifWebApi.Models;
+using YapBiTarifWebApi.Models.Enums;
+using YapBiTarifWebApi.Models.Request;
 
 namespace YapBiTarifWebApi.Controllers
 {
@@ -10,7 +12,6 @@ namespace YapBiTarifWebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
         private readonly DataContext _context;
 
         public UserController(DataContext context)
@@ -21,45 +22,47 @@ namespace YapBiTarifWebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserModel>> Get()
         {
-            return await _context.UserModels.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         [HttpGet("id")]
-        [ProducesResponseType(typeof(UserModel),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(long id) {
-            var user = await _context.UserModels.FindAsync(id);
+        public async Task<IActionResult> GetById(long id)
+        {
+            var user = await _context.Users.FindAsync(id);
             return user == null ? NotFound() : Ok(user);
         }
-
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create(UserModel user, int accountTypeId)
+        public async Task<IActionResult> Create([FromBody] CreateUserRequestModel request)
         {
-            var accountType = await _context.AccountTypeModels.FindAsync(accountTypeId);
-
-            if (accountType == null) return BadRequest();
-            else
+            var user = new UserModel
             {
-                user.AccountType = accountType;
-            }
+                Name = request.Name,
+                Surname = request.Surname,
+                AccountType = request.AccountType,
+                Email = request.Email,
+                CreatedDate = DateTime.Now,
+                Username = request.Username,
+                ProfilePictureUrl = null,
+            };
 
-
-            await _context.UserModels.AddAsync(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
         }
-
 
         [HttpPut("id")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, UserModel user)
         {
-            if (id != user.Id) return BadRequest();
+            if (id != user.Id)
+                return BadRequest();
 
             _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -72,18 +75,14 @@ namespace YapBiTarifWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var userToDelete = await _context.UserModels.FindAsync(id);
-            if (userToDelete == null) return NotFound();
+            var userToDelete = await _context.Users.FindAsync(id);
+            if (userToDelete == null)
+                return NotFound();
 
-
-            _context.UserModels.Remove(userToDelete);
+            _context.Users.Remove(userToDelete);
             await _context.SaveChangesAsync();
 
-
             return NoContent();
-
         }
-
-
     }
 }

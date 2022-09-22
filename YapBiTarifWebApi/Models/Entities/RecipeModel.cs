@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using YapBiTarifWebApi.Models.Enums;
 
 namespace YapBiTarifWebApi.Models
 {
@@ -7,7 +8,7 @@ namespace YapBiTarifWebApi.Models
         [Key]
         public int Id { get; set; }
         public string? Name { get; set; }
-        public RecipeTypeModel? Type { get; set; }
+        public RecipeTypeEnum? Type { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public List<RecipeStepModel>? Steps { get; set; }
