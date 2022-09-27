@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddEntityFrameworkNpgsql()
     .AddDbContext<DataContext>(
-        options => options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"))
+        options => options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(DataContext)))
     );
 
 var app = builder.Build();

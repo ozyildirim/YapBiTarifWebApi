@@ -1,25 +1,17 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using YapBiTarifWebApi.Models;
 
 namespace YapBiTarifWebApi.Helpers
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
+        public DataContext(DbContextOptions<DataContext> dbContextOptions)
+            : base(options: dbContextOptions) { }
 
-        public DataContext(IConfiguration configuration)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Configuration = configuration;
+            base.OnConfiguring(optionsBuilder);
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to postgres with connection string from app settings
-            options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
-        }
-
 
         public DbSet<AccountTypeModel> AccountTypes { get; set; }
         public DbSet<IngredientModel> Ingredients { get; set; }
