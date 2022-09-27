@@ -15,7 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddEntityFrameworkNpgsql()
     .AddDbContext<DataContext>(
-        options => options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(DataContext)))
+        options =>
+            options.UseNpgsql(
+                "Host=localhost;Database=yapbitarifDB;Port=5432;Username=postgres; Password=postgre12"
+            )
     );
 
 var app = builder.Build();
@@ -29,7 +32,8 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-// app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
