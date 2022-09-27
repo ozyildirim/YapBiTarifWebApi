@@ -20,8 +20,16 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+// app.UseSwaggerUI();
 
 // // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
