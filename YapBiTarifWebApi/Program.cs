@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using YapBiTarifWebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
