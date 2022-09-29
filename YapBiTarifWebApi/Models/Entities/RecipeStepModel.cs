@@ -1,6 +1,10 @@
-﻿    public class RecipeStepModel
-    {
-        public int Id { get; set; }
-        public string? Value { get; set; }
-    }
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+public class RecipeStepModel
+{
+    [Column("id")]
+    public int Id { get; set; }
+
+    [Column("value", TypeName = "jsonb")]
+    public string? Value { get; set; }
+}
