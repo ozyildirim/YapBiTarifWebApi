@@ -26,6 +26,7 @@ var app = builder.Build();
 app.UseDeveloperExceptionPage();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseRouting();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
@@ -50,8 +51,6 @@ app.UseForwardedHeaders(
         ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
     }
 );
-
-app.UseAuthorization();
 
 app.MapControllers();
 
