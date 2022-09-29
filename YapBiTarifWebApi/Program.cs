@@ -17,7 +17,7 @@ builder.Services
     .AddDbContext<DataContext>(
         options =>
             options.UseNpgsql(
-                "Host=localhost;Database=yapbitarifDB;Port=5432;Username=postgres; Password=postgre123"
+                "Host=localhost;Database=yapbitarifDB;Port=5432;Username=postgres;Password=postgre123"
             )
     );
 
