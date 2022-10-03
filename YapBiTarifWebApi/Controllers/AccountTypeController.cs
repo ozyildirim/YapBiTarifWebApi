@@ -33,17 +33,21 @@ namespace YapBiTarifWebApi.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create(AccountTypeModel accountType)
+        [ProducesResponseType(typeof(CreateAccountTypeResponseModel), StatusCodes.Status201Created)]
+        public async Task<IActionResult> Create(CreateAccountTypeRequestModel accountType)
         {
-            await _context.AccountTypes.AddAsync(accountType);
+            var entity = new AccountTypeModel { Name = accountType.Name };
+            await _context.AccountTypes.AddAsync(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = accountType.Id }, accountType);
+            return CreatedAtAction(
+                nameof(Create),
+                new CreateAccountTypeResponseModel { Id = entity.Id, Name = entity.Name }
+            );
         }
 
         [HttpPut("id")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(CreateAccountTypeRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, AccountTypeModel accountType)
         {
@@ -53,7 +57,10 @@ namespace YapBiTarifWebApi.Controllers
             _context.Entry(accountType).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return CreatedAtAction(
+                nameof(Update),
+                new CreateAccountTypeResponseModel { Id = accountType.Id, Name = accountType.Name }
+            );
         }
 
         [HttpDelete("id")]
