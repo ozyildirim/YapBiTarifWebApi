@@ -3,19 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YapBiTarifWebApi.Models
 {
-    public class IngredientModel
+    public class IngredientModel : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-
         [Column("name")]
         public string? Name { get; set; }
 
         [Column("description")]
         public string? Description { get; set; }
 
-        [Column("imageLink")]
+        [Column("imagelink")]
         public string? ImageLink { get; set; }
     }
 }

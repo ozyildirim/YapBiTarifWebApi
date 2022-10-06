@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public class RecipeStepModel
+public class RecipeStepModel : BaseEntity
 {
-    [Column("id")]
-    public int Id { get; set; }
-
     [Column("value", TypeName = "jsonb")]
     public string? Value { get; set; }
 }

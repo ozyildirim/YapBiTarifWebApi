@@ -13,16 +13,18 @@ namespace YapBiTarifWebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly DataContext _context;
+        private IUserRepository _userRepository;
 
-        public UserController(DataContext context)
+        public UserController(DataContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public async Task<IEnumerable<UserModel>> Get()
         {
-            return await _context.Users.ToListAsync();
+            return _userRepository.GetAll();
         }
 
         [HttpGet("id")]
@@ -45,7 +47,7 @@ namespace YapBiTarifWebApi.Controllers
                 Surname = request.Surname,
                 AccountType = request.AccountType,
                 Email = request.Email,
-                CreatedDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
                 Username = request.Username,
                 ProfilePictureUrl = null,
             };

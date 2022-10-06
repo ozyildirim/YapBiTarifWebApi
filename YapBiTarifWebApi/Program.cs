@@ -4,8 +4,11 @@ using YapBiTarifWebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+// Add services to the container.
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

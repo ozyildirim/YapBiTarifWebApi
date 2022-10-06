@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 using YapBiTarifWebApi.Models.Enums;
 
 namespace YapBiTarifWebApi.Models
 {
-    public class UserModel
+    public class UserModel : BaseEntity
     {
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("email")]
         public string? Email { get; set; }
 
@@ -25,9 +23,6 @@ namespace YapBiTarifWebApi.Models
 
         [Column("accounttype")]
         public AccountTypeEnum? AccountType { get; set; }
-
-        [Column("createddate")]
-        public DateTime? CreatedDate { get; set; }
 
         [Column("profilepictureurl")]
         public string? ProfilePictureUrl { get; set; }

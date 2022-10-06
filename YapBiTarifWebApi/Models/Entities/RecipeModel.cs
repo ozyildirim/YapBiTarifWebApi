@@ -4,31 +4,21 @@ using YapBiTarifWebApi.Models.Enums;
 
 namespace YapBiTarifWebApi.Models
 {
-    public class RecipeModel
+    public class RecipeModel : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-
         [Column("name")]
         public string? Name { get; set; }
 
         [Column("type")]
         public RecipeTypeEnum? Type { get; set; }
 
-        [Column("authorId")]
+        [Column("authorid")]
         public int? AuthorId { get; set; }
-
-        [Column("createdDate")]
-        public DateTime? CreatedDate { get; set; }
-
-        [Column("updatedDate")]
-        public DateTime? UpdatedDate { get; set; }
 
         [Column("steps")]
         public List<RecipeStepModel>? Steps { get; set; }
 
-        [Column("visualLinks")]
+        [Column("visuallinks")]
         public string[]? VisualLinks { get; set; }
 
         [Column("ingredients")]
