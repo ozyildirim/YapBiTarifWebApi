@@ -11,16 +11,21 @@ namespace YapBiTarifWebApi.Controllers
     public class AccountTypeController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IAccountTypeRepository _accountTypeRepository;
 
-        public AccountTypeController(DataContext context)
+        public AccountTypeController(
+            DataContext context,
+            IAccountTypeRepository accountTypeRepository
+        )
         {
             _context = context;
+            _accountTypeRepository = accountTypeRepository;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AccountTypeModel>> Get()
+        public async Task<IEnumerable<AccountTypeModel>> GetAll()
         {
-            return await _context.AccountTypes.ToListAsync();
+            return _accountTypeRepository.GetAll();
         }
 
         [HttpGet("id")]

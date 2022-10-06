@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -25,6 +26,7 @@ builder.Services
     );
 
 var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseDeveloperExceptionPage();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
