@@ -10,18 +10,20 @@ namespace YapBiTarifWebApi.Controllers
     public class RecipeTypeController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IRecipeTypeRepository _recipeTypeRepository;
 
-        public RecipeTypeController(DataContext context)
+        public RecipeTypeController(DataContext context, IRecipeTypeRepository recipeTypeRepository)
         {
             _context = context;
+            _recipeTypeRepository = recipeTypeRepository;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(List<RecipeTypeModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IEnumerable<RecipeTypeModel>> Get()
+        public IEnumerable<RecipeTypeModel> GetAll()
         {
-            return await _context.RecipeTypes.ToListAsync();
+            return _recipeTypeRepository.GetAll();
         }
 
         [HttpGet("id")]
@@ -29,7 +31,7 @@ namespace YapBiTarifWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var recipeType = await _context.RecipeTypes.FindAsync(id);
+            var recipeType = await _recipeTypeRepository.GetById(id);
             return recipeType == null ? NotFound() : Ok(recipeType);
         }
 
@@ -38,14 +40,13 @@ namespace YapBiTarifWebApi.Controllers
         public async Task<IActionResult> Create(CreateRecipeTypeRequestModel recipeType)
         {
             var entity = new RecipeTypeModel { Name = recipeType.Name };
-            await _context.RecipeTypes.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _recipeTypeRepository.Create(entity);
 
             return CreatedAtAction(nameof(GetById), entity);
         }
 
         [HttpPut("id")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, RecipeTypeModel recipeType)
@@ -53,16 +54,14 @@ namespace YapBiTarifWebApi.Controllers
             if (id != recipeType.Id)
                 return BadRequest();
 
-            var model = await _context.RecipeTypes.FindAsync(id);
+            var model = await _recipeTypeRepository.GetById(id);
 
             if (model == null)
                 return NotFound();
 
-            _context.Entry(recipeType).State = EntityState.Modified;
-            _context.Update(recipeType);
-            await _context.SaveChangesAsync();
+            await _recipeTypeRepository.Update(id, recipeType);
 
-            return NoContent();
+            return CreatedAtAction(nameof(Update), recipeType);
         }
 
         [HttpDelete("id")]

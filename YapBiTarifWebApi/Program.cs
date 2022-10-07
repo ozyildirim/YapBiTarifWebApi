@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using YapBiTarifWebApi.Helpers;
+using YapBiTarifWebApi.Repository.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
+builder.Services.AddScoped<IRecipeTypeRepository, RecipeTypeRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 
 // Add services to the container.
 builder.Services.AddControllers();
